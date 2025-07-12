@@ -1,4 +1,5 @@
 import { getImage } from './imageUtils';
+import { createSampleItems } from './sampleData';
 
 export interface Item {
   id: string;
@@ -69,6 +70,13 @@ export interface Follow {
   id: string;
   followerId: string;
   followingId: string;
+  createdAt: string;
+}
+
+export interface Wishlist {
+  id: string;
+  userId: string;
+  itemId: string;
   createdAt: string;
 }
 
@@ -244,6 +252,50 @@ export const itemsAPI = {
     
     const imageData = item.images.map(imageId => getImage(imageId)).filter(Boolean);
     return { ...item, imageData };
+  }
+};
+
+// Wishlist API
+export const wishlistAPI = {
+  getAll: (): Wishlist[] => {
+    const wishlist = localStorage.getItem('rewear-wishlist');
+    return wishlist ? JSON.parse(wishlist) : [];
+  },
+
+  getByUserId: (userId: string): Wishlist[] => {
+    const wishlist = wishlistAPI.getAll();
+    return wishlist.filter(item => item.userId === userId);
+  },
+
+  add: (userId: string, itemId: string): Wishlist => {
+    const wishlist = wishlistAPI.getAll();
+    const newWishlistItem: Wishlist = {
+      id: Date.now().toString(),
+      userId,
+      itemId,
+      createdAt: new Date().toISOString()
+    };
+    
+    wishlist.push(newWishlistItem);
+    localStorage.setItem('rewear-wishlist', JSON.stringify(wishlist));
+    return newWishlistItem;
+  },
+
+  remove: (userId: string, itemId: string): boolean => {
+    const wishlist = wishlistAPI.getAll();
+    const filteredWishlist = wishlist.filter(item => 
+      !(item.userId === userId && item.itemId === itemId)
+    );
+    
+    if (filteredWishlist.length === wishlist.length) return false;
+    
+    localStorage.setItem('rewear-wishlist', JSON.stringify(filteredWishlist));
+    return true;
+  },
+
+  isInWishlist: (userId: string, itemId: string): boolean => {
+    const wishlist = wishlistAPI.getByUserId(userId);
+    return wishlist.some(item => item.itemId === itemId);
   }
 };
 
@@ -436,52 +488,14 @@ export const followsAPI = {
   }
 };
 
-// Initialize sample data with smaller images
+// Initialize sample data with more items
 export const initializeSampleData = () => {
   try {
     const existingItems = itemsAPI.getAll();
-    if (existingItems.length === 0) {
+    if (existingItems.length < 10) {
       console.log('🌱 Initializing sample data...');
       
-      const sampleItems = [
-        {
-          title: "Vintage Levi's Denim Jacket",
-          description: "Classic 90s denim jacket in excellent condition. Perfect for layering and creating trendy outfits. Shows minimal wear with authentic vintage character.",
-          category: "Jackets",
-          size: "M",
-          type: "swap" as const,
-          brand: "Levi's",
-          condition: "Excellent",
-          minRating: 3,
-          isWashed: true,
-          tags: ["#Vintage", "#Denim", "#90s"],
-          images: ["sample1"], // Using placeholder IDs
-          userId: "user1",
-          username: "Sarah Chen",
-          userAvatar: "https://images.unsplash.com/photo-1494790108755-2616b332b6c8?w=100",
-          location: "Mumbai, India",
-          status: "approved" as const
-        },
-        {
-          title: "Designer Silk Scarf - Hermès Style",
-          description: "Luxurious silk scarf with beautiful paisley pattern. Perfect for special occasions or adding elegance to any outfit. Authentic designer quality.",
-          category: "Accessories",
-          size: "Free Size",
-          type: "rent" as const,
-          brand: "Hermès",
-          condition: "Like New",
-          rentPrice: 75,
-          minRating: 4,
-          isWashed: true,
-          tags: ["#Designer", "#Silk", "#Luxury"],
-          images: ["sample2"],
-          userId: "user2",
-          username: "Priya Sharma",
-          userAvatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100",
-          location: "Delhi, India",
-          status: "approved" as const
-        }
-      ];
+      const sampleItems = createSampleItems();
 
       // Create sample items with error handling
       sampleItems.forEach((item, index) => {
