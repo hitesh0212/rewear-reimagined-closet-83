@@ -43,8 +43,8 @@ const App = () => (
               <div className="min-h-screen transition-all duration-500 ease-in-out">
                 <Toaster />
                 <Sonner />
-                <UniversalThemeToggle />
                 <BrowserRouter>
+                  <UniversalThemeToggle />
                   <div className="animate-fade-in">
                     <Routes>
                       <Route path="/" element={<Index />} />
