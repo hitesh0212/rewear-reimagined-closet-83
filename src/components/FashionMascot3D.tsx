@@ -2,10 +2,10 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, MeshWobbleMaterial, Float, Environment, Text } from '@react-three/drei';
 import { useRef, Suspense } from 'react';
-import { Mesh } from 'three';
+import { Mesh, Group } from 'three';
 
 const FashionableMascot = () => {
-  const groupRef = useRef<THREE.Group>(null);
+  const groupRef = useRef<Group>(null);
 
   return (
     <Float speed={1.5} rotationIntensity={0.5} floatIntensity={1.2}>
