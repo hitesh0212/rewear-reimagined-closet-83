@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,7 @@ import {
   ShoppingCart,
   Bookmark,
   Flag,
-  Wash,
+  Droplets,
   Calendar
 } from 'lucide-react';
 
@@ -223,7 +222,7 @@ const ItemDetail = () => {
                   </Badge>
                   {item.isWashed && (
                     <Badge variant="outline" className="text-green-600">
-                      <Wash className="w-3 h-3 mr-1" />
+                      <Droplets className="w-3 h-3 mr-1" />
                       Washed
                     </Badge>
                   )}

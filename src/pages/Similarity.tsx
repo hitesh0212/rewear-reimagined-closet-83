@@ -22,11 +22,17 @@ import {
   ArrowRight
 } from 'lucide-react';
 
+interface ItemWithSimilarity extends Item {
+  similarity: number;
+  colorSimilarity: number;
+  styleSimilarity: number;
+}
+
 const Similarity = () => {
   const { itemId } = useParams();
   const [baseItem, setBaseItem] = useState<Item | null>(null);
-  const [similarItems, setSimilarItems] = useState<Item[]>([]);
-  const [filteredItems, setFilteredItems] = useState<Item[]>([]);
+  const [similarItems, setSimilarItems] = useState<ItemWithSimilarity[]>([]);
+  const [filteredItems, setFilteredItems] = useState<ItemWithSimilarity[]>([]);
   const [similarityThreshold, setSimilarityThreshold] = useState([75]);
   const [sortBy, setSortBy] = useState('similarity');
   const [filterBy, setFilterBy] = useState('all');
@@ -97,7 +103,7 @@ const Similarity = () => {
     const allItems = itemsAPI.getAll()
       .filter(item => item.id !== baseItem.id && item.status === 'approved');
 
-    const itemsWithSimilarity = allItems.map(item => ({
+    const itemsWithSimilarity: ItemWithSimilarity[] = allItems.map(item => ({
       ...item,
       similarity: calculateSimilarity(baseItem, item),
       colorSimilarity: calculateColorSimilarity(baseItem, item),
