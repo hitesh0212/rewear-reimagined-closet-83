@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import Navbar from '@/components/Navbar';
 import { itemsAPI, Item } from '@/lib/localStorage';
 import { Search, Filter, MapPin, User, Star } from 'lucide-react';
+import MascotIcon from '@/components/MascotIcon';
 
 const Browse = () => {
   const [items, setItems] = useState<Item[]>([]);
@@ -76,7 +77,10 @@ const Browse = () => {
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-4">Browse Items</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-3xl font-bold">Browse Items</h1>
+            <MascotIcon size={60} category={filters.category || 'general'} />
+          </div>
           
           {/* Search and Filters */}
           <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mb-6">
@@ -218,7 +222,7 @@ const Browse = () => {
 
         {filteredItems.length === 0 && (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">👗</div>
+            <MascotIcon size={120} category={filters.category || 'general'} className="mx-auto mb-4" />
             <h3 className="text-xl font-semibold mb-2">No items found</h3>
             <p className="text-gray-600 dark:text-gray-400">
               Try adjusting your search or filters

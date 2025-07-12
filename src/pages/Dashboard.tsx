@@ -113,9 +113,12 @@ const Dashboard = () => {
                 </div>
               </div>
               
-              {/* 3D Fashion Mascot */}
+              {/* Fashion Mascot with appropriate category */}
               <div className="w-full lg:w-96 h-80 animate-float">
-                <FashionMascot3D showText={true} />
+                <FashionMascot3D 
+                  showText={true} 
+                  category={user?.role === 'admin' ? 'formal' : user?.role === 'business' ? 'formal' : 'general'} 
+                />
               </div>
             </div>
           </div>

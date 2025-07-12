@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -40,7 +39,7 @@ const Index = () => {
         </div>
       </nav>
 
-      {/* Hero Section with 3D Mascot */}
+      {/* Hero Section with Image-based Mascot */}
       <section className="container mx-auto px-4 py-20 text-center">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
@@ -77,10 +76,10 @@ const Index = () => {
             </div>
           </div>
           
-          {/* 3D Mascot */}
+          {/* Image-based Mascot */}
           <div className="relative">
             <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
-            <Mascot3D height="400px" className="relative z-10" />
+            <Mascot3D height="400px" className="relative z-10" category="general" />
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
               <Badge variant="secondary" className="bg-white/80 text-purple-600">
                 Meet ReWear Bot! 👋
