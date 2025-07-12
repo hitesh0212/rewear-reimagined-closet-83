@@ -2,9 +2,17 @@
 import { Button } from '@/components/ui/button';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useLocation } from 'react-router-dom';
 
 const UniversalThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
+  const location = useLocation();
+  
+  // Don't show the universal toggle on pages that have a navbar (which includes its own theme toggle)
+  const pagesWithNavbar = ['/dashboard', '/profile', '/add-item', '/item', '/browse', '/similarity', '/virtual-try-on', '/followers', '/admin', '/donate', '/chat'];
+  const shouldShow = !pagesWithNavbar.some(path => location.pathname.startsWith(path)) && location.pathname !== '/auth';
+
+  if (!shouldShow) return null;
 
   return (
     <div className="fixed top-4 right-4 z-50 animate-fade-in">
